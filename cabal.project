@@ -2,5 +2,8 @@ with-compiler: ghc-9.14.1
 packages:
   ./
 
-allow-older: *
-allow-newer: *
+-- `sydtest` uses  `svg-builder`.
+-- The latest version of `svg-builder` has an upper bound on base < 4.22.
+-- We're using GHC 9.14.1 which ships with base 4.22.
+-- So we need to override `svg-builder`'s dependency on base
+allow-newer: svg-builder:base
