@@ -32,6 +32,8 @@ checks:
     cabal clean && cabal build all --enable-tests --enable-benchmarks --ghc-options "-Werror"
     # Run the tests
     just test
+    # Build with the lowest supported version of each dependency.
+    cabal clean && just min-deps
 
 min-deps:
     cabal build lib:template \
