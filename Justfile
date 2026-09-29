@@ -17,16 +17,64 @@ format:
     ormolu --mode inplace $(git ls-files -- '*.hs')
 
 checks:
-    xreferee
-    just test
+    just doctest
+    just haddock
+    just pandoc
     just format
+    # check markdown links
+    xrefcheck --ignore "release/**/*"
+    # Check cross-references "ref:" in the repo
+    xreferee --include-untracked
+    # Build with `-Werror`
     cabal clean && cabal build all --enable-tests --enable-benchmarks --ghc-options "-Werror"
+    # Run the tests
+    just test
+
+doctest:
+    ./scripts/check_doctest.sh
+    cabal exec -- doctest $(find src test \( -name '*.lhs' -o -name '*.hs' \) ! -path test/Spec.hs -print)
 
 haddock:
     ./scripts/check_haddock_warnings.sh lib:template
 
-doctest:
-    ./scripts/check_doctest.sh
-    stack build doctest
-    stack exec doctest -- $(find src \( -name '*.lhs' -o -name '*.hs' \) -print) \
-        -XBlockArguments -XTypeFamilies -XQualifiedDo -XLambdaCase -XDataKinds
+# Run haddock in "file watch" mode
+haddock-fw:
+    watchexec --restart --clear --exts hs -- just haddock
+
+haddock-hackage *ARGS:
+    cabal update
+    cabal haddock lib:template --haddock-for-hackage {{ ARGS }}
+
+pandoc:
+    ./scripts/run_pandoc.sh
+
+############################################################################
+## Release
+############################################################################
+# Checklist:
+# - [ ] Update version in `package.yaml`
+# - [ ] Update changelog
+# - [ ] Add `@since` annotations to all new public API
+# - [ ] Review the `min-deps` command
+# - [ ] Create GitHub release & tag the commit
+
+publish-candidate:
+    just checks
+
+    rm -rf dist-newstyle
+    rm -rf release && mkdir release
+
+    cabal sdist --builddir release
+    cabal upload release/sdist/*.tar.gz
+
+publish-candidate-docs *ARGS:
+    just checks
+
+    rm -rf release/docs
+    mkdir -p release/docs
+    cabal update
+    cabal haddock lib:template --haddock-for-hackage --builddir release/docs
+    cabal upload --documentation {{ ARGS }} release/docs/*-docs.tar.gz
+
+publish-final-docs:
+    just publish-candidate-docs --publish
