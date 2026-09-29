@@ -5,6 +5,9 @@ default:
 build:
     cabal build all --enable-tests --enable-benchmarks --ghc-options "-Werror"
 
+freeze:
+    rm cabal.project.freeze ; cabal freeze --enable-tests --enable-benchmarks
+
 test:
     cabal test
 
@@ -29,6 +32,14 @@ checks:
     cabal clean && cabal build all --enable-tests --enable-benchmarks --ghc-options "-Werror"
     # Run the tests
     just test
+
+min-deps:
+    cabal build lib:template \
+        --project-file=cabal.project.min-deps \
+        --prefer-oldest \
+        --builddir=dist-min-deps \
+        --ghc-options "-Werror" \
+        --with-compiler=ghc-9.10.3
 
 doctest:
     ./scripts/check_doctest.sh

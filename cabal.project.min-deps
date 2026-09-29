@@ -1,0 +1,5 @@
+-- This config file is used to compile the project with the lowest possible dependency bounds.
+-- It uses the same settings as `cabal.project`, but it doesn't use a freeze file.
+
+
+import: cabal.project
