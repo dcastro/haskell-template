@@ -13,14 +13,20 @@ test-filter filter:
       --exts hs,yaml,cabal \
       -- 'cabal test --test-options="--filter \"{{ filter }}\""'
 
-install:
-    cabal install --overwrite-policy=always
-
 format:
-    ormolu --mode inplace $(git ls-files -- '*.hs' ':!:src/ExceptionUtil.hs')
+    ormolu --mode inplace $(git ls-files -- '*.hs')
 
 checks:
     xreferee
     just test
     just format
     cabal clean && cabal build all --enable-tests --enable-benchmarks --ghc-options "-Werror"
+
+haddock:
+    ./scripts/check_haddock_warnings.sh lib:template
+
+doctest:
+    ./scripts/check_doctest.sh
+    stack build doctest
+    stack exec doctest -- $(find src \( -name '*.lhs' -o -name '*.hs' \) -print) \
+        -XBlockArguments -XTypeFamilies -XQualifiedDo -XLambdaCase -XDataKinds
