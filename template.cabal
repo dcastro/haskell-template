@@ -1,0 +1,98 @@
+cabal-version: 2.2
+name: template
+version: 0.0.1
+description: Please see the README on GitHub at <https://github.com/githubuser/template#readme>
+homepage: https://github.com/githubuser/template#readme
+bug-reports: https://github.com/githubuser/template/issues
+author: Diogo Castro
+maintainer: dc@diogocastro.com
+copyright: 2026 Diogo Castro
+license: BSD-3-Clause
+license-file: LICENSE
+build-type: Simple
+extra-source-files:
+  CHANGELOG.md
+  README.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/template
+
+common extensions
+  default-extensions:
+    BlockArguments
+    DeriveAnyClass
+    DuplicateRecordFields
+    ImpredicativeTypes
+    NoFieldSelectors
+    NoImplicitPrelude
+    OrPatterns
+    OverloadedRecordDot
+    OverloadedStrings
+    StrictData
+
+common warnings
+  ghc-options:
+    -Weverything
+    -Wno-name-shadowing
+    -Wno-missing-exported-signatures
+    -Wno-missing-import-lists
+    -Wno-missing-export-lists
+    -Wno-missed-specialisations
+    -Wno-all-missed-specialisations
+    -Wno-unsafe
+    -Wno-safe
+    -Wno-missing-local-signatures
+    -Wno-monomorphism-restriction
+    -Wno-implicit-prelude
+    -Wno-prepositive-qualified-module
+    -Wno-missing-safe-haskell-mode
+    -Wno-unused-packages
+    -Wno-missing-kind-signatures
+    -Wno-missing-role-annotations
+
+common rts-options
+  ghc-options:
+    -threaded
+    -rtsopts
+    -with-rtsopts=-N
+
+library
+  import: extensions, warnings
+  exposed-modules:
+
+  other-modules:
+    Paths_template
+
+  autogen-modules:
+    Paths_template
+
+  hs-source-dirs:
+    src
+
+  build-depends:
+    base >=4.7 && <5,
+
+  default-language: GHC2024
+
+test-suite template-test
+  import: extensions, warnings, rts-options
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+    Paths_template
+
+  autogen-modules:
+    Paths_template
+
+  hs-source-dirs:
+    test
+
+  build-tool-depends:
+    sydtest-discover:sydtest-discover
+
+  build-depends:
+    base,
+    sydtest,
+
+  default-language: GHC2024
