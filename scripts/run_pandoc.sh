@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+: <<'END'
+
+This script compiles the Literate Haskell files declared in `file_map` to markdown.
+
+If the lhs files contain an include directive such as `@include:OtherModule.lhs@`,
+then `OtherModule.lhs` will be compiled as well and spliced in.
+
+END
+
+
+
+
+
 set -e # exit on error
 set -u # error on undefined var
 set -o pipefail # exit on command pipe failure
