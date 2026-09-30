@@ -1,7 +1,8 @@
 cabal-version: 2.2
 name: template
 version: 0.0.1
-description: Please see the README on GitHub at <https://github.com/githubuser/template#readme>
+synopsis: TODO
+description: TODO
 homepage: https://github.com/githubuser/template#readme
 bug-reports: https://github.com/githubuser/template/issues
 author: Diogo Castro
@@ -10,9 +11,15 @@ copyright: 2026 Diogo Castro
 license: BSD-3-Clause
 license-file: LICENSE
 build-type: Simple
+tested-with:
+  ghc ==9.10.3
+  ghc ==9.14.1
+
 extra-source-files:
-  CHANGELOG.md
   README.md
+
+extra-doc-files:
+  CHANGELOG.md
 
 source-repository head
   type: git
