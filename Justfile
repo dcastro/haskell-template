@@ -45,7 +45,8 @@ min-deps:
 
 doctest:
     ./scripts/check_doctest.sh
-    cabal exec -- doctest $(find src test \( -name '*.lhs' -o -name '*.hs' \) ! -path test/Spec.hs -print)
+    cabal exec -- doctest $(find src test \( -name '*.lhs' -o -name '*.hs' \) ! -path test/Spec.hs -print) \
+        -XGHC2024 -XBlockArguments -XQualifiedDo
 
 haddock:
     ./scripts/check_haddock_warnings.sh lib:template
