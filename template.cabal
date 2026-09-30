@@ -25,7 +25,6 @@ common extensions
     DuplicateRecordFields
     ImpredicativeTypes
     NoFieldSelectors
-    NoImplicitPrelude
     OverloadedRecordDot
     OverloadedStrings
     StrictData
@@ -78,6 +77,7 @@ test-suite template-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+    Example.ExampleSpec
     Paths_template
 
   autogen-modules:
