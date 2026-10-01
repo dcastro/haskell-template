@@ -29,6 +29,7 @@ common extensions
   default-extensions:
     BlockArguments
     DeriveAnyClass
+    DerivingVia
     DuplicateRecordFields
     ImpredicativeTypes
     NoFieldSelectors
