@@ -1,7 +1,7 @@
 with-compiler: ghc-9.14.1
 packages:
   ./
-  docs
+  docs-hs
 
 -- `sydtest` uses  `svg-builder`.
 -- The latest version of `svg-builder` has an upper bound on base < 4.22.

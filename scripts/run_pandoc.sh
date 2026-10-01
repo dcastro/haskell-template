@@ -22,7 +22,7 @@ cd "$(dirname "$0")"
 
 # Hardcoded mapping of source to destination files
 declare -A file_map
-file_map["../docs/src/Readme.lhs"]="../README.md"
+file_map["../docs-hs/src/Readme.lhs"]="../README.md"
 
 # NOTE:
 # We use the extension `+lhs` to enable support for Literate Haskell
