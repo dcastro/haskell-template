@@ -3,8 +3,8 @@ name: template
 version: 0.0.1
 synopsis: TODO
 description: TODO
-homepage: https://github.com/githubuser/template#readme
-bug-reports: https://github.com/githubuser/template/issues
+homepage: https://github.com/dcastro/template#readme
+bug-reports: https://github.com/dcastro/template/issues
 author: Diogo Castro
 maintainer: dc@diogocastro.com
 copyright: 2026 Diogo Castro
@@ -23,7 +23,7 @@ extra-doc-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/template
+  location: https://github.com/dcastro/template
 
 common extensions
   default-extensions:
