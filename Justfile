@@ -3,18 +3,18 @@ default:
     just --list
 
 build:
-    cabal build all --enable-tests --enable-benchmarks --ghc-options "-Werror"
+    cabal build all --enable-tests --enable-benchmarks
 
 freeze:
     rm cabal.project.freeze ; cabal freeze --enable-tests --enable-benchmarks
 
 test:
-    cabal test
+    cabal test all
 
 test-filter filter:
     watchexec --clear --restart \
       --exts hs,yaml,cabal \
-      -- 'cabal test --test-options="--filter \"{{ filter }}\""'
+      -- 'cabal test all --test-options="--filter \"{{ filter }}\""'
 
 format:
     ormolu --mode inplace $(git ls-files -- '*.hs')
