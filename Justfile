@@ -43,9 +43,10 @@ min-deps:
         --ghc-options "-Werror" \
         --with-compiler=ghc-9.10.3
 
-doctest:
+# Run doctest for all components, or only for the given cabal targets. E.g. `just doctest linear-effectful:lib:linear-effectful`
+doctest *TARGETS:
     ./scripts/check_doctest.sh
-    ./scripts/run_doctest.sh
+    ./scripts/run_doctest.sh {{ TARGETS }}
 
 haddock:
     ./scripts/check_haddock_warnings.sh lib:template

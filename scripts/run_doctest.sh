@@ -13,6 +13,11 @@ because doctest does not support the `-unit` flag.
 
 So we run `cabal repl --with-repl=doctest` once for each component.
 
+Usage:
+  run_doctest.sh             # Run doctest for all components.
+  run_doctest.sh TARGET...   # Run doctest only for the given cabal targets,
+                             # e.g. `linear-effectful:lib:linear-effectful`.
+
 END
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -26,19 +31,24 @@ cabal install doctest \
   --install-method=copy \
   --overwrite-policy=always
 
-# Update `plan.json` so that it lists the test suites and benchmarks too.
-cabal build all --enable-tests --enable-benchmarks --dry-run > /dev/null
+if [[ $# -gt 0 ]]; then
+  # Use the targets given as arguments, one per line.
+  targets="$(printf '%s\n' "$@")"
+else
+  # Update `plan.json` so that it lists the test suites and benchmarks too.
+  cabal build all --enable-tests --enable-benchmarks --dry-run > /dev/null
 
-# The cabal targets for all the components of the local packages, one per line.
-# E.g. `linear-effectful:lib:linear-effectful` or `linear-effectful:test:linear-effectful-test`.
-targets="$(jq -r '
-  .["install-plan"][]
-  | select(.style == "local")
-  | if .["component-name"] == "lib"
-    then "\(.["pkg-name"]):lib:\(.["pkg-name"])"
-    else "\(.["pkg-name"]):\(.["component-name"])"
-    end
-  ' dist-newstyle/cache/plan.json)"
+  # The cabal targets for all the components of the local packages, one per line.
+  # E.g. `linear-effectful:lib:linear-effectful` or `linear-effectful:test:linear-effectful-test`.
+  targets="$(jq -r '
+    .["install-plan"][]
+    | select(.style == "local")
+    | if .["component-name"] == "lib"
+      then "\(.["pkg-name"]):lib:\(.["pkg-name"])"
+      else "\(.["pkg-name"]):\(.["component-name"])"
+      end
+    ' dist-newstyle/cache/plan.json)"
+fi
 
 while read -r target; do
   echo "Running doctest for ${target}"
