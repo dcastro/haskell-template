@@ -62,15 +62,15 @@ common rts-options
     -rtsopts
     -with-rtsopts=-N
 
+common paths
+  other-modules: Paths_template
+  autogen-modules: Paths_template
+
 library
-  import: extensions, warnings
+  import: extensions, warnings, paths
+  -- cabal-gild: discover src
   exposed-modules:
   other-modules:
-    Paths_template
-
-  autogen-modules:
-    Paths_template
-
   hs-source-dirs:
     src
 
@@ -83,12 +83,9 @@ test-suite template-test
   import: extensions, warnings, rts-options
   type: exitcode-stdio-1.0
   main-is: Spec.hs
+  -- cabal-gild: discover test --exclude=test/Spec.hs
   other-modules:
     Example.ExampleSpec
-    Paths_template
-
-  autogen-modules:
-    Paths_template
 
   hs-source-dirs:
     test

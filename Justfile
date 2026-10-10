@@ -3,12 +3,14 @@ default:
     just --list
 
 build:
+    just gild
     cabal build all --enable-tests --enable-benchmarks
 
 freeze:
     rm cabal.project.freeze ; cabal freeze --enable-tests --enable-benchmarks
 
 test:
+    just gild
     cabal test all
 
 test-filter filter:
@@ -19,7 +21,12 @@ test-filter filter:
 format:
     ormolu --mode inplace $(git ls-files -- '*.hs')
 
+# Format all `.cabal` files with cabal-gild. This also updates the module lists that use `-- cabal-gild: discover`.
+gild:
+    for f in $(git ls-files --cached --others --exclude-standard -- '*.cabal'); do cabal-gild --io "$f"; done
+
 checks:
+    just gild
     just doctest
     just haddock
     just pandoc
@@ -36,6 +43,7 @@ checks:
     cabal clean && just min-deps
 
 min-deps:
+    just gild
     cabal build lib:template \
         --project-file=cabal.project.min-deps \
         --prefer-oldest \

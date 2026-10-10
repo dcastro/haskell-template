@@ -17,14 +17,9 @@ source-repository head
   location: https://github.com/dcastro/template
 
 library
+  -- cabal-gild: discover src
   exposed-modules:
     Readme
-
-  other-modules:
-    Paths_template_docs
-
-  autogen-modules:
-    Paths_template_docs
 
   hs-source-dirs:
     src
